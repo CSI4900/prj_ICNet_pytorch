@@ -11,7 +11,7 @@ import torch.utils.data as data
 from PIL import Image
 from torchvision import transforms
 from models import ICNet
-from dataset import CityscapesDataset
+# from dataset import CityscapesDataset
 from utils import ICNetLoss, IterationPolyLR, SegmentationMetric, SetupLogger, get_color_pallete
 
 class Evaluator(object):
@@ -164,7 +164,7 @@ if __name__ == '__main__':
     # Set config file
     config_path = "./configs/icnet.yaml"
     with open(config_path, "r") as yaml_file:
-        cfg = yaml.load(yaml_file.read())
+        cfg = yaml.load(yaml_file.read(), Loader=yaml.FullLoader)
         #print(cfg)
         #print(cfg["model"]["backbone"])
         print(cfg["train"]["specific_gpu_num"])
@@ -173,8 +173,10 @@ if __name__ == '__main__':
     os.environ["CUDA_VISIBLE_DEVICES"] = str(cfg["train"]["specific_gpu_num"])
     num_gpus = len(cfg["train"]["specific_gpu_num"].split(','))
     print("torch.cuda.is_available(): {}".format(torch.cuda.is_available()))
-    print("torch.cuda.device_count(): {}".format(torch.cuda.device_count()))
-    print("torch.cuda.current_device(): {}".format(torch.cuda.current_device()))
+
+    if torch.cuda.is_available():
+        print("torch.cuda.device_count(): {}".format(torch.cuda.device_count()))
+        print("torch.cuda.current_device(): {}".format(torch.cuda.current_device()))
     
     outdir = os.path.join(cfg["train"]["ckpt_dir"], "evaluate_output")
     if not os.path.exists(outdir):

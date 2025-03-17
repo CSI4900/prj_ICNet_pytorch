@@ -1,6 +1,6 @@
 """Base Model for Semantic Segmentation"""
 import torch.nn as nn
-from .base_models.resnetv1b import resnet50_v1s, resnet101_v1s, resnet152_v1s
+from .base_models.resnetv1b import resnet50_v1b, resnet101_v1b, resnet152_v1b
 
 __all__ = ['SegBaseModel']
 
@@ -19,11 +19,13 @@ class SegBaseModel(nn.Module):
         dilated = True
         self.nclass = nclass
         if backbone == 'resnet50':
-            self.pretrained = resnet50_v1s(pretrained=pretrained_base, dilated=dilated, **kwargs)
+            # resnet50_v1s (the name ending with _v1s) is from amazonaws, which is no longer available
+            # resnet50_v1b (the name ending with _v1b) is from PyTorch
+            self.pretrained = resnet50_v1b(pretrained=pretrained_base, dilated=dilated, **kwargs)
         elif backbone == 'resnet101':
-            self.pretrained = resnet101_v1s(pretrained=pretrained_base, dilated=dilated, **kwargs)
+            self.pretrained = resnet101_v1b(pretrained=pretrained_base, dilated=dilated, **kwargs)
         elif backbone == 'resnet152':
-            self.pretrained = resnet152_v1s(pretrained=pretrained_base, dilated=dilated, **kwargs)
+            self.pretrained = resnet152_v1b(pretrained=pretrained_base, dilated=dilated, **kwargs)
         else:
             raise RuntimeError('unknown backbone: {}'.format(backbone))
 

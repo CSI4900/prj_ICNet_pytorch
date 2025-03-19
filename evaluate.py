@@ -26,7 +26,7 @@ class Evaluator(object):
         self.model = ICNet(nclass = 19, backbone='resnet50').to(self.device)
         
         # load ckpt
-        pretrained_net = torch.load(cfg["test"]["ckpt_path"])
+        pretrained_net = torch.load(cfg["test"]["ckpt_path"], map_location=self.device)
         self.model.load_state_dict(pretrained_net)
         
         # evaluation metrics

@@ -1,6 +1,8 @@
 """Base Model for Semantic Segmentation"""
 import torch.nn as nn
-from .base_models.resnetv1b import resnet50_v1b, resnet101_v1b, resnet152_v1b
+import yaml
+import os
+from .base_models.resnetv1b import resnet50_v1s, resnet101_v1s, resnet152_v1s
 
 __all__ = ['SegBaseModel']
 
@@ -18,14 +20,24 @@ class SegBaseModel(nn.Module):
         super(SegBaseModel, self).__init__()
         dilated = True
         self.nclass = nclass
+
+        # Get the absolute path of the current script `segbase.py`
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+        config_path = os.path.join(BASE_DIR, "../configs/icnet.yaml")
+
+        # Open the file safely
+        if not os.path.exists(config_path):
+            raise FileNotFoundError(f"Config file not found at: {config_path}")
+        with open(config_path, "r") as yaml_file:
+            cfg = yaml.load(yaml_file.read(), Loader=yaml.FullLoader)
+
         if backbone == 'resnet50':
-            # resnet50_v1s (the name ending with _v1s) is from amazonaws, which is no longer available
-            # resnet50_v1b (the name ending with _v1b) is from PyTorch
-            self.pretrained = resnet50_v1b(pretrained=pretrained_base, dilated=dilated, **kwargs)
+            self.pretrained = resnet50_v1s(pretrained=pretrained_base, dilated=dilated, config=cfg, **kwargs)
         elif backbone == 'resnet101':
-            self.pretrained = resnet101_v1b(pretrained=pretrained_base, dilated=dilated, **kwargs)
+            self.pretrained = resnet101_v1s(pretrained=pretrained_base, dilated=dilated, config=cfg, **kwargs)
         elif backbone == 'resnet152':
-            self.pretrained = resnet152_v1b(pretrained=pretrained_base, dilated=dilated, **kwargs)
+            self.pretrained = resnet152_v1s(pretrained=pretrained_base, dilated=dilated, config=cfg, **kwargs)
         else:
             raise RuntimeError('unknown backbone: {}'.format(backbone))
 

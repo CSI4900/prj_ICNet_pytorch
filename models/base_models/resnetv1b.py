@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
 
+# The model in resnet50_v1s (the name ending with _v1s) is from GitHub project `LikeLy-Journey/SegmenTron`
+# The model in resnet50_v1b (the name ending with _v1b) is from PyTorch
 __all__ = ['ResNetV1b', 'resnet18_v1b', 'resnet34_v1b', 'resnet50_v1b',
            'resnet101_v1b', 'resnet152_v1b', 'resnet152_v1s', 'resnet101_v1s', 'resnet50_v1s']
 
@@ -177,10 +179,10 @@ class ResNetV1b(nn.Module):
         return x
 
 
-def resnet18_v1b(pretrained=False, **kwargs):
+def resnet18_v1b(pretrained=False, config=None, **kwargs):
     model = ResNetV1b(BasicBlockV1b, [2, 2, 2, 2], **kwargs)
     if pretrained:
-        old_dict = model_zoo.load_url(model_urls['resnet18'])
+        old_dict = model_zoo.load_url(model_urls['resnet18'], model_dir=config["test"]["pre_trained_models_path"])
         model_dict = model.state_dict()
         old_dict = {k: v for k, v in old_dict.items() if (k in model_dict)}
         model_dict.update(old_dict)
@@ -188,10 +190,10 @@ def resnet18_v1b(pretrained=False, **kwargs):
     return model
 
 
-def resnet34_v1b(pretrained=False, **kwargs):
+def resnet34_v1b(pretrained=False, config=None, **kwargs):
     model = ResNetV1b(BasicBlockV1b, [3, 4, 6, 3], **kwargs)
     if pretrained:
-        old_dict = model_zoo.load_url(model_urls['resnet34'])
+        old_dict = model_zoo.load_url(model_urls['resnet34'], model_dir=config["test"]["pre_trained_models_path"])
         model_dict = model.state_dict()
         old_dict = {k: v for k, v in old_dict.items() if (k in model_dict)}
         model_dict.update(old_dict)
@@ -199,10 +201,10 @@ def resnet34_v1b(pretrained=False, **kwargs):
     return model
 
 
-def resnet50_v1b(pretrained=False, **kwargs):
+def resnet50_v1b(pretrained=False, config=None, **kwargs):
     model = ResNetV1b(BottleneckV1b, [3, 4, 6, 3], **kwargs)
     if pretrained:
-        old_dict = model_zoo.load_url(model_urls['resnet50'])
+        old_dict = model_zoo.load_url(model_urls['resnet50'], model_dir=config["test"]["pre_trained_models_path"])
         model_dict = model.state_dict()
         old_dict = {k: v for k, v in old_dict.items() if (k in model_dict)}
         model_dict.update(old_dict)
@@ -210,10 +212,10 @@ def resnet50_v1b(pretrained=False, **kwargs):
     return model
 
 
-def resnet101_v1b(pretrained=False, **kwargs):
+def resnet101_v1b(pretrained=False, config=None, **kwargs):
     model = ResNetV1b(BottleneckV1b, [3, 4, 23, 3], **kwargs)
     if pretrained:
-        old_dict = model_zoo.load_url(model_urls['resnet101'])
+        old_dict = model_zoo.load_url(model_urls['resnet101'], model_dir=config["test"]["pre_trained_models_path"])
         model_dict = model.state_dict()
         old_dict = {k: v for k, v in old_dict.items() if (k in model_dict)}
         model_dict.update(old_dict)
@@ -221,10 +223,10 @@ def resnet101_v1b(pretrained=False, **kwargs):
     return model
 
 
-def resnet152_v1b(pretrained=False, **kwargs):
+def resnet152_v1b(pretrained=False, config=None, **kwargs):
     model = ResNetV1b(BottleneckV1b, [3, 8, 36, 3], **kwargs)
     if pretrained:
-        old_dict = model_zoo.load_url(model_urls['resnet152'])
+        old_dict = model_zoo.load_url(model_urls['resnet152'], model_dir=config["test"]["pre_trained_models_path"])
         model_dict = model.state_dict()
         old_dict = {k: v for k, v in old_dict.items() if (k in model_dict)}
         model_dict.update(old_dict)
@@ -232,33 +234,32 @@ def resnet152_v1b(pretrained=False, **kwargs):
     return model
 
 
-def resnet50_v1s(pretrained=False, root='~/.torch/models', **kwargs):
+def resnet50_v1s(pretrained=False, config=None, **kwargs):
     model = ResNetV1b(BottleneckV1b, [3, 4, 6, 3], deep_stem=True, **kwargs)
     if pretrained:
         from ..model_store import get_resnet_file
-        model.load_state_dict(torch.load(get_resnet_file('resnet50', root=root)), strict=False)
+        model.load_state_dict(torch.load(get_resnet_file('resnet50-25c4b509', root=config["test"]["pre_trained_models_path"])), strict=False)
     return model
 
 
-def resnet101_v1s(pretrained=False, root='~/.torch/models', **kwargs):
+def resnet101_v1s(pretrained=False, config=None, **kwargs):
     model = ResNetV1b(BottleneckV1b, [3, 4, 23, 3], deep_stem=True, **kwargs)
     if pretrained:
         from ..model_store import get_resnet_file
-        model.load_state_dict(torch.load(get_resnet_file('resnet101', root=root)), strict=False)
+        model.load_state_dict(torch.load(get_resnet_file('resnet101-2a57e44d', root=config["test"]["pre_trained_models_path"])), strict=False)
     return model
 
 
-def resnet152_v1s(pretrained=False, root='~/.torch/models', **kwargs):
+def resnet152_v1s(pretrained=False, config=None, **kwargs):
     model = ResNetV1b(BottleneckV1b, [3, 8, 36, 3], deep_stem=True, **kwargs)
     if pretrained:
         from ..model_store import get_resnet_file
-        model.load_state_dict(torch.load(get_resnet_file('resnet152', root=root)), strict=False)
+        model.load_state_dict(torch.load(get_resnet_file('resnet152-0d43d698', root=config["test"]["pre_trained_models_path"])), strict=False)
     return model
 
 
 if __name__ == '__main__':
-    import torch
-
+    
     img = torch.randn(4, 3, 224, 224)
     model = resnet50_v1b(True)
     output = model(img)

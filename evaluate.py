@@ -139,9 +139,8 @@ def _get_city_pairs(folder, split='train'):
                         maskpath = "./Cityscapes/gtFine/train/aachen/aachen_xxx_gtFine_labelIds"
                     """
                     imgpath = os.path.join(root, filename)
-                    foldername = os.path.basename(os.path.dirname(imgpath))
                     maskname = filename.replace('leftImg8bit', 'gtFine_labelIds')
-                    maskpath = os.path.join(mask_folder, foldername, maskname)
+                    maskpath = os.path.join(mask_folder, maskname)
                     if os.path.isfile(imgpath) and os.path.isfile(maskpath):
                         img_paths.append(imgpath)
                         mask_paths.append(maskpath)

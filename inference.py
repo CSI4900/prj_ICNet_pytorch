@@ -156,7 +156,7 @@ class Inference(object):
             # Postprocess and write to video
             postprocess_start = time.time()
             pred = torch.argmax(output[0], 1).cpu().numpy().squeeze(0)
-            pred = get_color_pallete(pred, "citys")
+            pred = get_color_pallete(pred, "citys").convert('RGB')
             pred = np.array(pred)
             pred = cv2.cvtColor(pred, cv2.COLOR_RGB2BGR)
             out.write(pred)

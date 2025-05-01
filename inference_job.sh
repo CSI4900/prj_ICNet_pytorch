@@ -49,6 +49,6 @@ source ~/prj_ICNet_pytorch_workspace/env/bin/activate
 # datadir=/prj_smp_workspace/training_data
 
 tensorboard --logdir=${logdir}/lightning_logs --host 0.0.0.0 --load_fast false & \
-    python ~/prj_ICNet_pytorch_workspace/inference.py
+    python ~/prj_ICNet_pytorch_workspace/inference.py --input test_data/bike_test_05.png
     # --model Conv \
     # --batch_size 32 \

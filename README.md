@@ -2,8 +2,10 @@
 This repo contains ICNet implemented by PyTorch, based on [paper](https://arxiv.org/abs/1704.08545) by Hengshuang Zhao, and et. al(ECCV'18).
 Training and evaluation are done on the [Cityscapes dataset](https://www.cityscapes-dataset.com/) by default.
 
+The pre-trained model **icnet_resnet50_197_0.710_best_model.pt** is under the folder `ckpt` (the model is uploaded to OneDrive instead of GitHub since the file is quite large).
+
 # Updates
-- 2019.11.15: Change `crop_size=960`, the best mIoU increased to 71.0%. It took about 2 days. Get [icnet_resnet50_197_0.710_best_model.pth]()
+- 2019.11.15: Change `crop_size=960`, the best mIoU increased to 71.0%. It took about 2 days. Get icnet_resnet50_197_0.710_best_model.pth, please check the [issues](https://github.com/liminn/ICNet-pytorch/issues)
 
 # Performance  
 | Method | mIoU(%)  | Time(ms) | FPS | Memory(GB)| GPU |

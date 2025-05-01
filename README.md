@@ -4,6 +4,16 @@ Training and evaluation are done on the [Cityscapes dataset](https://www.citysca
 
 The pre-trained model **icnet_resnet50_197_0.710_best_model.pt** is under the folder `ckpt` (the model is uploaded to OneDrive instead of GitHub since the file is quite large).
 
+Below are the brief descriptions for some folders and scripts:
+
+- ckpt: This folder contains the output for both the inference and evaluation
+- dataset: This folder contains the datasets and some configuration files
+- inference.py: This script file is used to infer either an image or a video clip. The output will be stored under `./ckpt/inference_output`
+  - Usage: python inference.py --input PATH_TO_IMAGE_OR_VIDEO
+- inference_job.sh: This script is used to submit a job to run inference.py on Compute Canada
+
+Since we (Zechen and Shun Hei)  are not the original authors of this project, we can't give too much information here. It is recommended to use the debugger to better understand how other Python scripts work.
+
 # Updates
 - 2019.11.15: Change `crop_size=960`, the best mIoU increased to 71.0%. It took about 2 days. Get icnet_resnet50_197_0.710_best_model.pth, please check the [issues](https://github.com/liminn/ICNet-pytorch/issues)
 

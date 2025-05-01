@@ -224,7 +224,7 @@ if __name__ == '__main__':
     logger = SetupLogger(name="semantic_segmentation",
                          save_dir=cfg["train"]["ckpt_dir"],
                          distributed_rank=0,
-                         filename='{}_{}_evaluate_log.txt'.format(cfg["model"]["name"], cfg["model"]["backbone"]))
+                         filename='{}_{}_inference_log.txt'.format(cfg["model"]["name"], cfg["model"]["backbone"]))
 
     inference = Inference(cfg)
     inference.start_inference()
